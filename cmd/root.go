@@ -32,8 +32,8 @@ Use it in interactive mode or in simple Q&A mode ... Enjoy!`,
 		model, _ := cmd.Flags().GetString("model")
 
 		switch api {
-		case APIGPT3:
-			return handleGPT3Prompt(model, args)
+		case APIChatGPT:
+			return handleChatGPT3Prompt(model, interact, args)
 		default:
 			return errors.New("not supported")
 		}
@@ -61,7 +61,7 @@ func init() {
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
 	rootCmd.Flags().BoolP("interactive", "i", false, "The mode to use")
-	rootCmd.Flags().String("api", APIGPT3, "The API to use")
+	rootCmd.Flags().String("api", APIChatGPT, "The API to use")
 	rootCmd.Flags().String("model", openai.GPT3Dot5Turbo, "The model to use")
 
 	// GPT3 flags
