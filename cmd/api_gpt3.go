@@ -9,6 +9,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/fatih/color"
 	openai "github.com/sashabaranov/go-openai"
 )
 
@@ -35,7 +36,9 @@ func handleChatGPT3Prompt(model string, interfact bool, args []string) error {
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
-		fmt.Printf("\nprompt: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n")
+		color.Set(color.FgWhite)
+		fmt.Printf("\nprompt $ ")
+
 		var text string
 		for {
 			v, err := reader.ReadString('\n')
@@ -50,12 +53,14 @@ func handleChatGPT3Prompt(model string, interfact bool, args []string) error {
 			Content: text,
 		})
 
+		color.Set(color.FgGreen)
+		fmt.Printf("\ncomplete $ ")
+
 		req := buildChatCompletionRequestWithMessages(model, messages)
 		stream, err := client.CreateChatCompletionStream(ctx, req)
 		if err != nil {
 			return fmt.Errorf("ChatCompletionStream error: %v", err)
 		}
-		fmt.Printf("\ncomplete: <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n")
 		for {
 			resp, err := stream.Recv()
 			if errors.Is(err, io.EOF) {
