@@ -10,12 +10,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// chatCmd represents the chat command
-var chatCmd = &cobra.Command{
-	Use:   "chat",
-	Short: "Chat-based completions",
-	Long: `Chat-based completions, you can use it in Q&A or Conversation mode.
+var chatCmdDescShort = `Chat-based completion`
+var chatCmdDescLong = `Chat-based completion, you can use it in Q&A or Conversation mode.
+
 It's different from text completion:
+
 - text completion, simple but powerful interface to any of OpenAI models,
   desc: https://platform.openai.com/docs/guides/completion/introduction
   model: https://platform.openai.com/docs/models
@@ -23,7 +22,13 @@ It's different from text completion:
   desc: https://platform.openai.com/docs/guides/chat
   
 Because gpt-3.5-turbo performs at a similar capability to text-davinci-003,
-but at 10% the price per token, we recommend gpt-3.5-turbo for most use cases.`,
+but at 10% the price per token, we recommend gpt-3.5-turbo for most use cases.`
+
+// chatCmd represents the chat command
+var chatCmd = &cobra.Command{
+	Use:   "chat",
+	Short: chatCmdDescShort,
+	Long:  chatCmdDescLong,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		model, _ := cmd.Flags().GetString("model")
 		if model != openai.GPT3Dot5Turbo && model != openai.GPT4 {
