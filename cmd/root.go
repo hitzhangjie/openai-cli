@@ -5,7 +5,6 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"errors"
 	"fmt"
 	"os"
 
@@ -21,23 +20,8 @@ var rootCmd = &cobra.Command{
 which supports GPT-3, GPT-4, ChatGPT, DALL.E 2, Whisper APIs.
 
 Use it in interactive mode or in simple Q&A mode ... Enjoy!`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	RunE: func(cmd *cobra.Command, args []string) error {
-		interact, _ := cmd.Flags().GetBool("interactive")
-		if !interact && len(args) == 0 {
-			return errors.New("missing prompt")
-		}
-		api, _ := cmd.Flags().GetString("api")
-		model, _ := cmd.Flags().GetString("model")
-
-		switch api {
-		case APIChatGPT:
-			return handleChatGPT3Prompt(model, interact, args)
-		default:
-			return errors.New("not supported")
-		}
-	},
+	//Run: func(cmd *cobra.Command, args []string) {
+	//},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -60,18 +44,13 @@ func init() {
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
-	rootCmd.Flags().BoolP("interactive", "i", false, "The mode to use")
-	rootCmd.Flags().String("api", APIChatGPT, "The API to use")
-	rootCmd.Flags().String("model", openai.GPT3Dot5Turbo, "The model to use")
+	rootCmd.PersistentFlags().BoolP("interactive", "i", false, "The mode to use")
+	rootCmd.PersistentFlags().String("model", openai.GPT3Dot5Turbo, "The model to use")
 
 	// GPT3 flags
-
 	// GPT4 flags
-
 	// ChatGPT flags
-
 	// Dalle.2 flags
-
 	// Whisper flags
 }
 
